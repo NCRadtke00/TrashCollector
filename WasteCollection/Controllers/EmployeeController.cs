@@ -162,17 +162,17 @@ namespace WasteCollection.Controllers
         public ActionResult Map(int id) // for adding google maps
         {
             CustomerAddress address = new CustomerAddress();
-            var locationService = new GoogleLocationService(apikey: "AIzaSyC8E3PXqKgVRYxAwL7v3V_1K7Af6EnzHX8");
+            var locationService = new GoogleLocationService(apikey: "AIzaSyC8E3PXqKgVRYxAwL7v3V_1K7Af6EnzHX8"); // hide this api key from project
 
             var customer = _db.Customers.Find(id);
             address.StreetAddress = customer.StreetAddress;
             address.City = customer.City;
-
             address.State = customer.State;
-            address.StreetAddress = customer.StreetAddress;
-
-
-
+            address.ZipCode = customer.ZipCode;
+            var customerAddress = $"{address.StreetAddress}{address.City}{address.State}{address.ZipCode}";
+            var pin = locationService.GetLatLongFromAddress(customerAddress);
+            address.Longitude = pin.Longitude;
+            address.Latitude = pin.Latitude;
             return View(address);
         }
     }
