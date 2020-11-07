@@ -30,9 +30,9 @@ namespace WasteCollection.Models
 
         [Display(Name = "Additional PickUp date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime? AdditionalPickUDay { get; set; }
+        public DateTime? AdditionalPickUpDay{ get; set; }
         [NotMapped]
-        public string AdditionalPickUDayString { get; set; }
+        public string AdditionalPickUp { get; set; }
         [NotMapped]
         public SelectList Days { get; set; }
         public bool IsAccountSuspended { get; set; }
@@ -43,7 +43,7 @@ namespace WasteCollection.Models
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? AccountSuspendEndDate { get; set; }
         [NotMapped]
-        public DateTime? MostRecentChargedDay { get; set; }
+        public DateTime? DateCharged { get; set; }
         [Display(Name = "Current Balance")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double CurrentAccountBalance { get; set; }
