@@ -98,12 +98,6 @@ namespace WasteCollection.Controllers
             return View("Filter", customersPickUpList);
 
         }
-
-
-
-
-
-
         // GET: Employee/Create
         public ActionResult Create()
         {
@@ -146,9 +140,10 @@ namespace WasteCollection.Controllers
             }
         }
 
-        public ActionResult Create()
+        public ActionResult Confirm(int id)
         {
-
+            var customer = _context.Customers.Where(c => c.Id == id).Single();
+            return View(customer);
         }
 
 
