@@ -158,5 +158,9 @@ namespace WasteCollection.Controllers
                 return View("Index");
             }
         }
+        public ActionResult Map(int id) // for adding google maps
+        {
+            return View();
+        }
     }
 }
