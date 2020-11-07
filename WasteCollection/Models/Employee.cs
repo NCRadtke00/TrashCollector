@@ -19,7 +19,6 @@ namespace WasteCollection.Models
         public string LastName { get; set; }
         [Display(Name = "Employee Designated Zip Code Route")]
         public int DesignatedZipCode { get; set; }
-
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
