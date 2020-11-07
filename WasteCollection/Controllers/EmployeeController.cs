@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WasteCollection.Data;
 using WasteCollection.Models;
+using WasteCollection.Models.ViewModels;
 
 namespace WasteCollection.Controllers
 {
@@ -24,7 +25,7 @@ namespace WasteCollection.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            ResetPickUpDayConfirmation();
+            ResetPickUpConfirmation();
 
             if (employee == null)
             {
@@ -34,35 +35,76 @@ namespace WasteCollection.Controllers
             else
             {
                 var customers = _context.Customers.Include(c => c.PickUpDay).ToList();
-                var customersInDesignatedZipCode = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.ConfirmPickUp == false).ToList();
+                var customersInDesignatedZipCode = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.ConfirmTrashPickUp == false).ToList();
                 var dayOfWeekString = DateTime.Now.DayOfWeek.ToString();
                 var todayString = DateTime.Today.ToString();
                 var today = DateTime.Today;
-                SetExtraPickUpDayString(customersInDesignatedZipCode);
-                var customersInDesignatedZipCodeAndToday = customersInDesignatedZipCode.Where(c => c.PickUpDay.Date == dayOfWeekString || c.AdditionalPickUDay == todayString).ToList();
-                SetSuspensionDates(customersInDesignatedZipCodeAndToday);
+                SetAdditionalPickUpDay(customersInDesignatedZipCode);
+                var customersInDesignatedZipCodeAndToday = customersInDesignatedZipCode.Where(c => c.PickUpDay.Date == dayOfWeekString || c.AdditionalPickUDayString == todayString).ToList();
+                SetAccountSuspensionDates(customersInDesignatedZipCodeAndToday);
                 var customersWithoutAccountsSuspended = customersInDesignatedZipCodeAndToday.Where(c => (c.AccountSuspendStartDate == null && c.AccountSuspendEndDate == null) || c.AccountSuspendStartDate > today || c.AccountSuspendEndDate < today).ToList();
                 return View(customersWithoutAccountsSuspended);
             }
         }
-        // GET: Employee/Details/5
-        public async Task<IActionResult> Details(int? id)
+        private void SetAdditionalPickUpDay(List<Customer> customers)
         {
-            if (id == null)
+            foreach (Customer customer in customers)
             {
-                return NotFound();
+                if (customer.AdditionalPickUDay.HasValue == true)
+                {
+                    var customerDate = customer.AdditionalPickUDay.Value.Date.ToString();
+                    customer.AdditionalPickUDayString = customerDate;
+                }
             }
-
-            var employee = await _context.Employees
-                .Include(e => e.IdentityUser)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-
-            return View(employee);
         }
+        private void SetAccountSuspensionDates(List<Customer> customers)
+        {
+            foreach (Customer customer in customers)
+            {
+                if (customer.AccountSuspendStartDate.HasValue == true && customer.AccountSuspendEndDate.HasValue == true)
+                {
+                    TimeSpan ts = new TimeSpan(0, 0, 0);
+                    var startTime = customer.AccountSuspendStartDate.Value.Date + ts;
+                    customer.AccountSuspendStartDate = startTime;
+                    var endTime = customer.AccountSuspendEndDate.Value.Date + ts;
+                    customer.AccountSuspendEndDate = endTime;
+
+                }
+            }
+        }
+        public ActionResult Filter() // get
+        {
+            CustomersByPickUpDay customersList = new CustomersByPickUpDay();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customers = _context.Customers.Include(c => c.PickUpDay).ToList();
+            customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode).ToList();
+            customersList.PickUpDaySelection = new SelectList(_context.PickUpDays, "Date", "Date");
+            return View(customersList);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Filter(CustomersByPickUpDay customer)
+        {
+
+            CustomersByPickUpDay customersList = new CustomersByPickUpDay();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            var selection = customer.PickUpDaySelection;
+            var customers = _context.Customers.Include(c => c.PickUpDay).ToList();
+            customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selection).ToList();
+            customersList.PickUpDaySelection = new SelectList(_context.PickUpDays, "Date", "Date");
+
+            return View("Filter", customersList);
+
+        }
+
+
+
+
+
 
         // GET: Employee/Create
         public IActionResult Create()
@@ -175,7 +217,7 @@ namespace WasteCollection.Controllers
         {
             return _context.Employees.Any(e => e.Id == id);
         }
-        private void ResetPickUpDayConfirmation()
+        private void ResetPickUpConfirmation()
         {
             var customers = _context.Customers.Include(m => m.PickUpDay).ToList();
             DateTime today = DateTime.Today;

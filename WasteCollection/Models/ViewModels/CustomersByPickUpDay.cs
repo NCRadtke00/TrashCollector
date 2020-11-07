@@ -12,9 +12,9 @@ namespace WasteCollection.Models.ViewModels
     public class CustomersByPickUpDay
     {
         public IEnumerable<Customer> Customers { get; set; }
-        public SelectList PickUpDaySelections { get; set; }
+        public SelectList PickUpDaySelection { get; set; }
         [Display(Name = "Which day would you like to see?")]
-        public string PickUpDaySelection { get; set; }
+        public string PickUpDaySelected { get; set; }
 
     }
 }

@@ -27,6 +27,7 @@ namespace WasteCollection.Models
         [Display(Name = "Pickup Day")]
         public int PickUpDayId { get; set; }
         public PickUpDay PickUpDay { get; set; }
+
         [Display(Name = "Additional PickUp date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? AdditionalPickUDay { get; set; }
