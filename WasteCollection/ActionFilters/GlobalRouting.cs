@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,23 @@ namespace WasteCollection.ActionFilters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            throw new NotImplementedException();
+            var controller = context.RouteData.Values["controller"];
+            if (controller.Equals("Home"))
+            {
+                if (_claimsPrincipal.IsInRole("Customer"))
+                {
+                    context.Result = new RedirectToActionResult("Index", "Customer", null);
+                }
+                else if (_claimsPrincipal.IsInRole("Employee"))
+                {
+                    context.Result = new RedirectToActionResult("Index", "Employee", null);
+
+                }
+            }
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            throw new NotImplementedException();
         }
     }
 }
