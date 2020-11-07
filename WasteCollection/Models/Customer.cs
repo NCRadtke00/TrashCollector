@@ -23,7 +23,6 @@ namespace WasteCollection.Models
         public string State { get; set; }
         [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
-
         [ForeignKey("PickUpDay")]
         [Display(Name = "Pickup Day")]
         public int PickUpDayId { get; set; }
@@ -36,15 +35,12 @@ namespace WasteCollection.Models
         [NotMapped]
         public SelectList Days { get; set; }
         public bool IsAccountSuspended { get; set; }
-
         [Display(Name = "Account Suspension Start Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? AccountSuspendStartDate { get; set; }
-
         [Display(Name = "Account Suspension End Date")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? AccountSuspendEndDate { get; set; }
-
         [NotMapped]
         public DateTime? MostRecentChargedDay { get; set; }
         [Display(Name = "Current Balance")]
@@ -52,8 +48,6 @@ namespace WasteCollection.Models
         public double CurrentAccountBalance { get; set; }
         [Display(Name = "Check the box to confirm trash has been pick up!")]
         public bool ConfirmTrashPickUp { get; set; }
-
-
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
