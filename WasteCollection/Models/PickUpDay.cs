@@ -8,5 +8,9 @@ namespace WasteCollection.Models
 {
     public class PickUpDay
     {
+        [Key]
+        public int Id { get; set; }
+
+
     }
 }
