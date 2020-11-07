@@ -12,19 +12,36 @@
             <div asp-validation-summary="ModelOnly" class="text-primary">
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="LastName" />
-                <input type="hidden" asp-for="LastName" />
-                <input type="hidden" asp-for="LastName" />
-                <input type="hidden" asp-for="LastName" />
-                <input type="hidden" asp-for="LastName" />
-                <input type="hidden" asp-for="LastName" />
+                <input type="hidden" asp-for="FirstName" />
+                <input type="hidden" asp-for="StreetAddress" />
+                <input type="hidden" asp-for="City" />
+                <input type="hidden" asp-for="State" />
+                <input type="hidden" asp-for="ZipCode" />
+                <input type="hidden" asp-for="PickUpDayId" />
+                <input type="hidden" asp-for="AdditionalPickUp" />
+                <input type="hidden" asp-for="IsAccountSuspended" />
+                <input type="hidden" asp-for="AccountSuspendStartDate" />
+                <input type="hidden" asp-for="AccountSuspendEndDate" />
+                <input type="hidden" asp-for="CurrentAccountBalance" />
+                <input type="hidden" asp-for="ZipCode" />
+                <input type="hidden" asp-for="IdentityUserId" />
+                <div class="form-group form-check">
+                    <label class="col-form-label" asp-for="ConfirmTrashPickUp" />
+                    @Html.DisplayNameFor(model => model.ConfirmTrashPickUp)
 
-
-
-
-
-
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-outline-success" />
+                </div>
             </div>
         </form>
     </div>
 </div>
-
+<div>
+    <form asp-action="Index">
+        <button type="submit" class="btn btn-outline-success">Back to @DateTime.Today</button>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
