@@ -13,18 +13,18 @@ namespace WasteCollection.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _db;
 
         public CustomerController(ApplicationDbContext context)
         {
-            _context = context;
+            _db = db;
         }
 
         // GET: Customer
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customer = _db.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if (customer == null)
             {
                 return RedirectToAction("Create");
@@ -39,7 +39,7 @@ namespace WasteCollection.Controllers
         // GET: Customer/Details/5
         public IActionResult Details(Customer customer)
         {
-            customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
+            customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
             if (customer == null)
             {
                 return NotFound();
@@ -49,11 +49,14 @@ namespace WasteCollection.Controllers
         }
 
         // GET: Customer/Create
-        public IActionResult Create()
+        public IActionResult Create(Customer customer)
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id");
-            return View();
+            var day = _db.PickUpDays.Find(customer.PickUpDayId);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return View(customer);
         }
 
         // POST: Customer/Create
