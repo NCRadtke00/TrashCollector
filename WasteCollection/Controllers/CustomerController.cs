@@ -15,7 +15,7 @@ namespace WasteCollection.Controllers
     {
         private readonly ApplicationDbContext _db;
 
-        public CustomerController(ApplicationDbContext context)
+        public CustomerController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -49,13 +49,13 @@ namespace WasteCollection.Controllers
         }
 
         // GET: Customer/Create
-        public IActionResult Create(Customer customer)
+        public IActionResult Create()
         {
-            var day = _db.PickUpDays.Find(customer.PickUpDayId);
-            if (customer == null)
+            var days = _db.PickUpDays.ToList();
+            Customer customer = new Customer()
             {
-                return NotFound();
-            }
+                Days = new SelectList(days, "Id", "Date")
+            };
             return View(customer);
         }
 
@@ -64,16 +64,18 @@ namespace WasteCollection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,City,State,ZipCode,PickUpDayId,AdditionalPickUDay,IsAccountSuspended,AccountSuspendStartDate,AccountSuspendEndDate,CurrentAccountBalance,ConfirmTrashPickUp,IdentityUserId")] Customer customer)
+        public IActionResult Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userId;
+                customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
+                _db.Add(customer);
+               _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
+       
             return View(customer);
         }
 
