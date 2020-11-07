@@ -74,9 +74,10 @@
                     </form>
                 </th>
                 <th>
-                    <form asp-action="Map" asp-route-id="@item.Id">
-                        <button type="submit" class="btn btn-outline-success">View location</button>
-                    </form>                </th>
+                    <form asp-action="Confirm" asp-route-id="@item.Id" method="get">
+                        <button type="submit" class="btn btn-outline-success">trash collected</button>
+                    </form>                
+                </th>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
