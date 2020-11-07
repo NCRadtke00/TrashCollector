@@ -92,7 +92,7 @@ namespace WasteCollection.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-            var selection = customer.PickUpDaySelection;
+            var selection = customer.PickUpDaySelected;
             var customers = _context.Customers.Include(c => c.PickUpDay).ToList();
             customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selection).ToList();
             customersList.PickUpDaySelection = new SelectList(_context.PickUpDays, "Date", "Date");
