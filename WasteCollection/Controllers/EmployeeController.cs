@@ -72,7 +72,7 @@ namespace WasteCollection.Controllers
                 }
             }
         }
-        public ActionResult Filter() // get
+        public ActionResult FilterResults() // get
         {
             CustomersByPickUpDay customersList = new CustomersByPickUpDay();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -85,7 +85,7 @@ namespace WasteCollection.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Filter(CustomersByPickUpDay customer)
+        public ActionResult FilterResults(CustomersByPickUpDay customer)
         {
 
             CustomersByPickUpDay customersPickUpList = new CustomersByPickUpDay();
@@ -149,7 +149,21 @@ namespace WasteCollection.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Confirm(Customer customer)
         {
-            return View("Index");
+            try
+            {
+                if (customer.ConfirmTrashPickUp == true)
+                {
+                    customer.CurrentAccountBalance += 50.00;
+                    customer.MostRecentChargedDay = DateTime.Today;
+                }
+                _context.Update(customer);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View("Index");
+            }
         }
 
 
