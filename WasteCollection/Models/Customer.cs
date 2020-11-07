@@ -26,6 +26,10 @@ namespace WasteCollection.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double CurrentBalance { get; set; }
 
+        [ForeignKey("PickUpDay")]
+        [Display(Name = "Pickup Day")]
+        public int PickUpDayId { get; set; }
+        public PickUpDay PickUpDay { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
