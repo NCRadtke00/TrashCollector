@@ -72,28 +72,27 @@ namespace WasteCollection.Controllers
                 customer.IdentityUserId = userId;
                 customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
                 _db.Add(customer);
-               _db.SaveChangesAsync();
+                _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-       
+
             return View(customer);
         }
 
         // GET: Customer/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _db.Customers.SingleOrDefault(mbox => mbox.Id == id);
+            var days = _db.PickUpDays.ToList();
+            customer.Days = new SelectList(days, "Id", "Date");
+
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+            //ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
             if (customer == null)
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
             return View(customer);
         }
 
@@ -102,72 +101,22 @@ namespace WasteCollection.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,City,State,ZipCode,PickUpDayId,AdditionalPickUDay,IsAccountSuspended,AccountSuspendStartDate,AccountSuspendEndDate,CurrentAccountBalance,ConfirmTrashPickUp,IdentityUserId")] Customer customer)
+        public IActionResult Edit(Customer customer)
         {
-            if (id != customer.Id)
+            try
             {
-                return NotFound();
+                _db.Update(customer);
+                _db.SaveChanges();
+                return RedirectToAction("Details", customer);
             }
-
-            if (ModelState.IsValid)
+            catch
             {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
-            return View(customer);
         }
-
-        // GET: Customer/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .Include(c => c.IdentityUser)
-                .Include(c => c.PickUpDay)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
-        // POST: Customer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CustomerExists(int id)
-        {
-            return _context.Customers.Any(e => e.Id == id);
-        }
+        //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+        //ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
+        //    return View(customer);
     }
+
 }
