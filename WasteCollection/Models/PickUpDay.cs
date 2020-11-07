@@ -10,7 +10,7 @@ namespace WasteCollection.Models
     {
         [Key]
         public int Id { get; set; }
-
-
+        [Display(Name = "Pickup Day")]
+        public string Date { get; set; }
     }
 }
