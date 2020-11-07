@@ -14,5 +14,7 @@ namespace WasteCollection.Models
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
+        [Display(Name = "Street Address")]
+        public string StreetAddress { get; set; }
     }
 }
