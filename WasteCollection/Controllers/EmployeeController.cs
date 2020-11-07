@@ -166,9 +166,9 @@ namespace WasteCollection.Controllers
 
             var customer = _db.Customers.Find(id);
             address.StreetAddress = customer.StreetAddress;
-            address.StreetAddress = customer.StreetAddress;
+            address.City = customer.City;
 
-            address.StreetAddress = customer.StreetAddress;
+            address.State = customer.State;
             address.StreetAddress = customer.StreetAddress;
 
 
