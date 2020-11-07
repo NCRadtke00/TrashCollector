@@ -20,5 +20,8 @@ namespace WasteCollection.Models
         public string State { get; set; }
         [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
+        [Display(Name = "Current Balance")]
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        public double CurrentBalance { get; set; }
     }
 }
