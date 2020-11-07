@@ -44,41 +44,44 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <th>
-                @Html.DisplayNameFor(model => model.CurrentAccountBalance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickUpDay.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdditionalPickUpDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountSuspendStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccountSuspendEndDate)
-            </th>
-            <th>
-                View location
-            </th>
-            <th>
-                Was trash collected
-            </th>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.CurrentAccountBalance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PickUpDay.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AdditionalPickUpDay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountSuspendStartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccountSuspendEndDate)
+                </th>
+                <th>
+                    <form asp-action="Map" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-outline-success">View location</button>
+                    </form>
+                </th>
+                <th>
+                    Was trash collected
+                </th>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
