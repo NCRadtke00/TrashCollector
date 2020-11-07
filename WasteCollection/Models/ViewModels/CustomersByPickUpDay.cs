@@ -13,5 +13,8 @@ namespace WasteCollection.Models.ViewModels
     {
         public IEnumerable<Customer> Customers { get; set; }
         public SelectList PickUpDaySelections { get; set; }
+        [Display(Name = "Which day would you like to see?")]
+        public string PickUpDaySelection { get; set; }
+
     }
 }
