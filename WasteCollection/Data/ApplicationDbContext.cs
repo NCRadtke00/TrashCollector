@@ -24,16 +24,51 @@ namespace WasteCollection.Data
                 .HasData(
                     new IdentityRole()
                     {
-                        Name = "Customer",
-                        NormalizedName = "CUSTOMER"
+                        Name = "Employee",
+                        NormalizedName = "EMPLOYEE"
                     },
                     new IdentityRole()
                     {
-                        Name = "Employee",
-                        NormalizedName = "EMPLOYEE"
-                    }
-
-                );
+                        Name = "Customer",
+                        NormalizedName = "CUSTOMER"
+                    });
+            builder.Entity<PickUpDay>()
+                .HasData(
+                    new PickUpDay
+                    {
+                        Id = 1,
+                        Date = "Monday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 2,
+                        Date = "Tuesday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 3,
+                        Date = "Wednesday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 4,
+                        Date = "Thursday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 5,
+                        Date = "Friday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 6,
+                        Date = "Saturday"
+                    },
+                    new PickUpDay
+                    {
+                        Id = 7,
+                        Date = "Sunday"
+                    });
         }
     }
 }

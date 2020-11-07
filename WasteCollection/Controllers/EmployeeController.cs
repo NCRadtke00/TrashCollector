@@ -80,21 +80,21 @@ namespace WasteCollection.Controllers
             var employee = _db.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var customers = _db.Customers.Include(c => c.PickUpDay).ToList();
             customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode).ToList();
-            customersList.PickUpDaySelection = new SelectList(_db.PickUpDays, "Date", "Date");
+            customersList.DaySelection = new SelectList(_db.PickUpDays, "Date", "Date");
             return View(customersList);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult FilterResults(CustomersByPickUpDay customer)
         {
-            CustomersByPickUpDay customersPickUpList = new CustomersByPickUpDay();
+            CustomersByPickUpDay customersList = new CustomersByPickUpDay();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _db.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var selected = customer.PickUpDaySelected;
             var customers = _db.Customers.Include(c => c.PickUpDay).ToList();
-            customersPickUpList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selected).ToList();
-            customersPickUpList.PickUpDaySelection = new SelectList(_db.PickUpDays, "Date", "Date");
-            return View("Filter", customersPickUpList);
+            customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selected).ToList();
+            customersList.DaySelection = new SelectList(_db.PickUpDays, "Date", "Date");
+            return View("Filter", customersList);
         }
 
         public ActionResult Create()
@@ -163,7 +163,6 @@ namespace WasteCollection.Controllers
         {
             CustomerAddress address = new CustomerAddress();
             var locationService = new GoogleLocationService(apikey: "AIzaSyC8E3PXqKgVRYxAwL7v3V_1K7Af6EnzHX8"); // hide this api key from project
-
             var customer = _db.Customers.Find(id);
             address.StreetAddress = customer.StreetAddress;
             address.City = customer.City;
