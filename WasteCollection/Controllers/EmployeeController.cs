@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GoogleMaps.LocationServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -160,7 +161,19 @@ namespace WasteCollection.Controllers
         }
         public ActionResult Map(int id) // for adding google maps
         {
-            return View();
+            CustomerAddress address = new CustomerAddress();
+            var locationService = new GoogleLocationService(apikey: "AIzaSyC8E3PXqKgVRYxAwL7v3V_1K7Af6EnzHX8");
+
+            var customer = _db.Customers.Find(id);
+            address.StreetAddress = customer.StreetAddress;
+            address.StreetAddress = customer.StreetAddress;
+
+            address.StreetAddress = customer.StreetAddress;
+            address.StreetAddress = customer.StreetAddress;
+
+
+
+            return View(address);
         }
     }
 }
