@@ -74,8 +74,9 @@
                     </form>
                 </th>
                 <th>
-                    Was trash collected
-                </th>
+                    <form asp-action="Map" asp-route-id="@item.Id">
+                        <button type="submit" class="btn btn-outline-success">View location</button>
+                    </form>                </th>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
