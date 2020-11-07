@@ -145,6 +145,12 @@ namespace WasteCollection.Controllers
             var customer = _context.Customers.Where(c => c.Id == id).Single();
             return View(customer);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Confirm(Customer customer)
+        {
+            return View("Index");
+        }
 
 
 
