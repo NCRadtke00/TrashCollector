@@ -1,15 +1,16 @@
-﻿@model IEnumerable<WasteCollection.Models.Employee>
+﻿@model IEnumerable<WasteCollection.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Your route @DateTime.Today</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<form asp-action="Filter" method="get">
+    <button type="submit" class="btn btn-outline-info">All Customers</button>
+</form>
+<br />
+<table class="table text-center">
     <thead>
         <tr>
             <th>
@@ -18,12 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DesignatedZipCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>
+            
             <th></th>
         </tr>
     </thead>
