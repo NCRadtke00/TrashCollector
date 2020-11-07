@@ -82,12 +82,10 @@ namespace WasteCollection.Controllers
             customersList.PickUpDaySelection = new SelectList(_context.PickUpDays, "Date", "Date");
             return View(customersList);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult FilterResults(CustomersByPickUpDay customer)
         {
-
             CustomersByPickUpDay customersPickUpList = new CustomersByPickUpDay();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
@@ -96,18 +94,13 @@ namespace WasteCollection.Controllers
             customersPickUpList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selected).ToList();
             customersPickUpList.PickUpDaySelection = new SelectList(_context.PickUpDays, "Date", "Date");
             return View("Filter", customersPickUpList);
-
         }
-        // GET: Employee/Create
+
         public ActionResult Create()
         {
             Employee employee = new Employee();
             return View(employee);
         }
-
-        // POST: Employee/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Employee employee)
@@ -125,6 +118,7 @@ namespace WasteCollection.Controllers
                 return View(employee);
             }
         }
+
         private void ResetPickUpConfirmation()
         {
             var customers = _context.Customers.Include(m => m.PickUpDay).ToList();

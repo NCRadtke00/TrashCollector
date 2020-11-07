@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,24 +21,25 @@ namespace WasteCollection.Controllers
         }
 
         // GET: Customer
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var applicationDbContext = _context.Customers.Include(c => c.IdentityUser).Include(c => c.PickUpDay);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (customer == null)
+            {
+                return RedirectToAction("Create");
+
+            }
+            else
+            {
+                return View("Details", customer);
+            }
         }
 
         // GET: Customer/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(Customer customer)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .Include(c => c.IdentityUser)
-                .Include(c => c.PickUpDay)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
             if (customer == null)
             {
                 return NotFound();
