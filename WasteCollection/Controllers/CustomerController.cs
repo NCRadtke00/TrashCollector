@@ -20,7 +20,6 @@ namespace WasteCollection.Controllers
             _db = db;
         }
 
-        // GET: Customer
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -28,15 +27,12 @@ namespace WasteCollection.Controllers
             if (customer == null)
             {
                 return RedirectToAction("Create");
-
             }
             else
             {
                 return View("Details", customer);
             }
         }
-
-        // GET: Customer/Details/5
         public IActionResult Details(Customer customer)
         {
             customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
@@ -44,11 +40,9 @@ namespace WasteCollection.Controllers
             {
                 return NotFound();
             }
-
             return View(customer);
         }
-
-        // GET: Customer/Create
+       
         public IActionResult Create()
         {
             var days = _db.PickUpDays.ToList();
@@ -58,10 +52,6 @@ namespace WasteCollection.Controllers
             };
             return View(customer);
         }
-
-        // POST: Customer/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Customer customer)
@@ -75,31 +65,21 @@ namespace WasteCollection.Controllers
                 _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             return View(customer);
         }
 
-        // GET: Customer/Edit/5
         public IActionResult Edit(int? id)
         {
 
             var customer = _db.Customers.SingleOrDefault(mbox => mbox.Id == id);
             var days = _db.PickUpDays.ToList();
             customer.Days = new SelectList(days, "Id", "Date");
-
-            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            //ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
             if (customer == null)
             {
                 return NotFound();
             }
             return View(customer);
         }
-
-        // POST: Customer/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Customer customer)
         {
@@ -114,9 +94,5 @@ namespace WasteCollection.Controllers
                 return RedirectToAction("Index");
             }
         }
-        //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-        //ViewData["PickUpDayId"] = new SelectList(_context.PickUpDays, "Id", "Id", customer.PickUpDayId);
-        //    return View(customer);
     }
-
 }
