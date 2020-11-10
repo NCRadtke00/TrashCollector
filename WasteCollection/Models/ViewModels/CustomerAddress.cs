@@ -7,8 +7,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WasteCollection.Models.ViewModels
 {
+      
     public class CustomerAddress
     {
+        [Key]
+        public int Id { get; set; }
+
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
         public string State { get; set; }

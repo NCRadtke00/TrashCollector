@@ -10,8 +10,8 @@ using WasteCollection.Data;
 namespace WasteCollection.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201107213322_Initial")]
-    partial class Initial
+    [Migration("20201110154502_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace WasteCollection.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dfd3c3d5-3df3-43f5-8353-676f7fd25fc6",
-                            ConcurrencyStamp = "cd45aab2-414a-467d-8f08-ac5161464fe9",
+                            Id = "92d1b731-0c6d-4a43-ac3d-73c871ae2d4a",
+                            ConcurrencyStamp = "b9062459-e61d-43e8-b21d-24d3dc073526",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "6d7999b3-3722-4425-a9e4-72431956704c",
-                            ConcurrencyStamp = "90817bad-a8a7-44fd-929d-d5b8e705c230",
+                            Id = "827908f7-e9e5-4f9e-a90d-cc2145152d67",
+                            ConcurrencyStamp = "f82e2dc0-353a-48a1-ad8e-c7ba1cdf7b18",
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -289,6 +289,22 @@ namespace WasteCollection.Migrations
                     b.HasIndex("PickUpDayId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            City = "milwaukee",
+                            ConfirmTrashPickUp = false,
+                            CurrentAccountBalance = 0.0,
+                            FirstName = "Reggie",
+                            IsAccountSuspended = false,
+                            LastName = "White",
+                            PickUpDayId = 1,
+                            State = "Wisconsin",
+                            StreetAddress = "2848 n cramer st",
+                            ZipCode = 53211
+                        });
                 });
 
             modelBuilder.Entity("WasteCollection.Models.Employee", b =>

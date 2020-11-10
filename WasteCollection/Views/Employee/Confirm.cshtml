@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Confirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h1>Confirm Trash Pick Up</h1>
@@ -18,7 +20,7 @@
                 <input type="hidden" asp-for="State" />
                 <input type="hidden" asp-for="ZipCode" />
                 <input type="hidden" asp-for="PickUpDayId" />
-                <input type="hidden" asp-for="AdditionalPickUp" />
+                <input type="hidden" asp-for="AdditionalPickUpDay" />
                 <input type="hidden" asp-for="IsAccountSuspended" />
                 <input type="hidden" asp-for="AccountSuspendStartDate" />
                 <input type="hidden" asp-for="AccountSuspendEndDate" />

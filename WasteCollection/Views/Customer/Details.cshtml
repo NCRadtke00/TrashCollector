@@ -2,15 +2,16 @@
 
 @{
     ViewData["Title"] = "Details";
-}
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
+}
 <style>
     * {
         box-sizing: border-box;
     }
 
     /* Create three equal columns that floats next to each other */
-    .column {
+    .columnD {
         float: left;
         width: 33.33%;
         padding: 10px;
@@ -25,18 +26,21 @@
     }
 </style>
 <body>
-    <h1>Welcome, john doe</h1>
+    <h1>Welcome, @Html.DisplayFor(model => model.FirstName)</h1>
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="get">
+        <button type="submit" class="btn btn-outline-danger">Add additional Pickup, Suspend account services or change personal information</button>
+    </form>
     <div class="row">
-        <div class="column">
+        <div class="columnD">
             <div class="card border-danger" style="max-width: 25rem;">
                 <div class="card-header h3 text-danger">Current Balance</div>
                 <div class="card-body">
-                    <h4 class="card-title text-danger"><strong>$500.00</strong></h4>
-                    <p class="card-text"><strong>Your next pick up day is<mark> Sunday </mark></strong></p>
+                    <h4 class="card-title text-danger"><strong>@Html.DisplayFor(model => model.CurrentAccountBalance)</strong></h4>
+                    <p class="card-text"><strong>Your trash will be collected on<mark> @Html.DisplayFor(model => model.PickUpDay.Date) </mark></strong> please have your cans in their designated location for collection.</p>
                 </div>
             </div>
         </div>
-        <div class="column">
+        <div class="columnD">
             <div class="card border-success" style="max-width: 25rem;">
                 <div class="card-header h4 text-info">Additional PickUp Day</div>
                 <div class="card-body">
@@ -53,7 +57,7 @@
                 </div>
             </div>
         </div>
-        <div class="column">
+        <div class="columnD">
             <div class="card border-success" style="max-width: 25rem;">
                 <div class="card-header h4 text-info">Suspension Status</div>
                 <div class="card-body">
@@ -71,104 +75,6 @@
                 </div>
             </div>
         </div>
-        <form asp-action="Edit" asp-route-id="@Model.Id" method="get">
-            <button type="submit" class="btn btn-outline-success">Edit Profile</button>
-        </form>
     </div>
 </body>
 
-
-@*<div>
-        <h4>Customer</h4>
-        <hr />
-        <dl class="row">
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.StreetAddress)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.StreetAddress)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.City)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.City)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.State)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.State)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ZipCode)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ZipCode)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.PickUpDay)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.PickUpDay.Id)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.AdditionalPickUpDay)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.AdditionalPickUpDay)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.IsAccountSuspended)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.IsAccountSuspended)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountSuspendStartDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.AccountSuspendStartDate)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.AccountSuspendEndDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.AccountSuspendEndDate)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.CurrentAccountBalance)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.CurrentAccountBalance)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ConfirmTrashPickUp)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ConfirmTrashPickUp)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.IdentityUser)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.IdentityUser.Id)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
-    </div>*@

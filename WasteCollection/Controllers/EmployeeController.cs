@@ -94,7 +94,7 @@ namespace WasteCollection.Controllers
             var customers = _db.Customers.Include(c => c.PickUpDay).ToList();
             customersList.Customers = customers.Where(c => c.ZipCode == employee.DesignatedZipCode && c.PickUpDay.Date == selected).ToList();
             customersList.DaySelection = new SelectList(_db.PickUpDays, "Date", "Date");
-            return View("Filter", customersList);
+            return View("FilterResults", customersList);
         }
 
         public ActionResult Create()

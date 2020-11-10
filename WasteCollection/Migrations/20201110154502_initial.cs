@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WasteCollection.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -230,8 +230,8 @@ namespace WasteCollection.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "dfd3c3d5-3df3-43f5-8353-676f7fd25fc6", "cd45aab2-414a-467d-8f08-ac5161464fe9", "Employee", "EMPLOYEE" },
-                    { "6d7999b3-3722-4425-a9e4-72431956704c", "90817bad-a8a7-44fd-929d-d5b8e705c230", "Customer", "CUSTOMER" }
+                    { "92d1b731-0c6d-4a43-ac3d-73c871ae2d4a", "b9062459-e61d-43e8-b21d-24d3dc073526", "Employee", "EMPLOYEE" },
+                    { "827908f7-e9e5-4f9e-a90d-cc2145152d67", "f82e2dc0-353a-48a1-ad8e-c7ba1cdf7b18", "Customer", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(
@@ -247,6 +247,11 @@ namespace WasteCollection.Migrations
                     { 6, "Saturday" },
                     { 7, "Sunday" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Customers",
+                columns: new[] { "Id", "AccountSuspendEndDate", "AccountSuspendStartDate", "AdditionalPickUpDay", "City", "ConfirmTrashPickUp", "CurrentAccountBalance", "FirstName", "IdentityUserId", "IsAccountSuspended", "LastName", "PickUpDayId", "State", "StreetAddress", "ZipCode" },
+                values: new object[] { 1, null, null, null, "milwaukee", false, 0.0, "Reggie", null, false, "White", 1, "Wisconsin", "2848 n cramer st", 53211 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

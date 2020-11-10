@@ -1,52 +1,61 @@
-﻿@model IEnumerable<WasteCollection.Models.Customer>
-
+﻿@model WasteCollection.Models.ViewModels.CustomersByPickUpDay
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "FilterResults";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<h1>Client list</h1>
+<h3>You can search clients by date here to see what has to be done on any given day!</h3>
 
-<h1> @DateTime.Today.DayOfWeek Clients</h1>
-
-<form asp-action="FilterResults" method="get">
-    <button type="submit" class="btn btn-success">All Customers</button>
+<form asp-action="FilterResults" method="post">
+    <div class="form-group">
+        <label asp-for="DaySelected"></label>
+        <select asp-for="DaySelected" class="form-control" asp-items="@Model.DaySelection"></select>
+        <span asp-validation-for="DaySelected" class="text-success"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Search</button>
 </form>
-<br />
 <table class="table text-center">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Last Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CurrentAccountBalance)
+                Current Account Balance
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PickUpDay.Date)
+                Street Address
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdditionalPickUpDay)
+                State
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountSuspendStartDate)
+                City
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AccountSuspendEndDate)
+                ZipCode
             </th>
             <th>
-                View location
+                Pick Up Day
             </th>
             <th>
-                Was trash collected
+                Additional Pick Up Day
+            </th>
+            <th>
+                Account Suspend Start Date
+            </th>
+            <th>
+                Account Suspend End Date
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Customers)
         {
             <tr>
                 <td>
@@ -58,6 +67,18 @@
                 <th>
                     @Html.DisplayFor(modelItem => item.CurrentAccountBalance)
                 </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StreetAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
                 <th>
                     @Html.DisplayFor(modelItem => item.PickUpDay.Date)
                 </th>
@@ -74,11 +95,6 @@
                     <form asp-action="Map" asp-route-id="@item.Id">
                         <button type="submit" class="btn btn-success">Customer location</button>
                     </form>
-                </th>
-                <th>
-                    <form asp-action="Confirm" asp-route-id="@item.Id" method="get">
-                        <button type="submit" class="btn btn-success">trash collected</button>
-                    </form>                
                 </th>
             </tr>
         }

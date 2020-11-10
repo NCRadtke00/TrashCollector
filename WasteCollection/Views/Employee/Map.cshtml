@@ -1,0 +1,76 @@
+﻿@model WasteCollection.Models.ViewModels.CustomerAddress
+
+@{
+    ViewData["Title"] = "Map";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<h1>Customer Location</h1>
+<br />
+<div id="map" style="width:100%; height:400px"></div>
+<div class="row">
+    <dt class="col-sm-2">
+        Street Address
+    </dt>
+    <dd class="col-sm-10">
+
+        @Html.DisplayFor(model => model.StreetAddress)
+    </dd>
+    <dt class="col-sm-2">
+       City
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.City)
+    </dd>
+    <dt class="col-sm-2">
+        State
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.State)
+    </dd>
+    <dt class="col-sm-2">
+        Zip Code
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ZipCode)
+    </dd>
+</div>
+<div>
+    <form asp-action="Index">
+        <button type="submit" class="btn btn-success">Today's Customers</button>
+    </form>
+    <br />
+    <form asp-action="FilterResults" method="get">
+        <button type="submit" class="btn btn-success">All Customer</button>
+    </form>
+</div>
+
+
+@section scripts{
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb3d1Jb7e06yFVxKXS9EdB2O_ofBEarr0&callback=initMap&libraries=&v=weekly"
+            defer></script>
+    <script type="text/javascript">
+    let map;
+    var longitude = @Html.DisplayNameFor(model => model.Longitude);
+    var latitude = @Html.DisplayNameFor(model => model.Latitude);
+
+
+    function initMap() {
+        var mapOptions = {
+            zoom: 15,
+            center: new google.maps.LatLng(latitude, longitude),
+            mapTypeId: 'roadmap'
+        };
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        var customerHomePosition = { lat: latitude, lng: longitude };
+        var marker = new google.maps.Marker({
+            position: customerHomePosition,
+            map: map,
+            title: 'Customer Home'
+        });
+    }
+    </script>
+}

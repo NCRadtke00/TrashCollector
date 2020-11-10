@@ -13,17 +13,17 @@ namespace WasteCollection.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
         public CustomerController(ApplicationDbContext db)
         {
-            _db = db;
+            _context = db;
         }
 
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _db.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if (customer == null)
             {
                 return RedirectToAction("Create");
@@ -35,7 +35,7 @@ namespace WasteCollection.Controllers
         }
         public IActionResult Details(Customer customer)
         {
-            customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
+            customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
             if (customer == null)
             {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace WasteCollection.Controllers
        
         public IActionResult Create()
         {
-            var days = _db.PickUpDays.ToList();
+            var days = _context.PickUpDays.ToList();
             Customer customer = new Customer()
             {
                 Days = new SelectList(days, "Id", "Date")
@@ -60,9 +60,9 @@ namespace WasteCollection.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
-                customer.PickUpDay = _db.PickUpDays.Find(customer.PickUpDayId);
-                _db.Add(customer);
-                _db.SaveChangesAsync();
+                customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
+                _context.Add(customer);
+                _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -71,8 +71,8 @@ namespace WasteCollection.Controllers
         public IActionResult Edit(int? id)
         {
 
-            var customer = _db.Customers.SingleOrDefault(mbox => mbox.Id == id);
-            var days = _db.PickUpDays.ToList();
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            var days = _context.PickUpDays.ToList();
             customer.Days = new SelectList(days, "Id", "Date");
             if (customer == null)
             {
@@ -85,8 +85,8 @@ namespace WasteCollection.Controllers
         {
             try
             {
-                _db.Update(customer);
-                _db.SaveChanges();
+                _context.Update(customer);
+                _context.SaveChanges();
                 return RedirectToAction("Details", customer);
             }
             catch
