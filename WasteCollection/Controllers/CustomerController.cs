@@ -43,7 +43,7 @@ namespace WasteCollection.Controllers
             return View(customer);
         }
        
-        public IActionResult Create()
+        public IActionResult Create() //get
         {
             var days = _context.PickUpDays.ToList();
             Customer customer = new Customer()
@@ -54,23 +54,26 @@ namespace WasteCollection.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Customer customer)
+        public IActionResult Create(Customer customer) // post
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
                 customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
-                _context.Add(customer);
-                _context.SaveChangesAsync();
+                _context.Customers.Add(customer);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            else
+            {
+                return View(customer);
+            }
+            
         }
 
         public IActionResult Edit(int? id)
         {
-
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             var days = _context.PickUpDays.ToList();
             customer.Days = new SelectList(days, "Id", "Date");
@@ -80,12 +83,13 @@ namespace WasteCollection.Controllers
             }
             return View(customer);
         }
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Customer customer)
         {
             try
             {
-                _context.Update(customer);
+                _context.Customers.Update(customer);
                 _context.SaveChanges();
                 return RedirectToAction("Details", customer);
             }

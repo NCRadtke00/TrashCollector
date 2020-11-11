@@ -17,8 +17,5 @@ namespace WasteCollection.Models.ViewModels
         [Display(Name = "Which day would you like to see?")]
         public string DaySelected { get; set; }
         public IEnumerable<Customer> Customers { get; set; }
-       
-
-
     }
 }
