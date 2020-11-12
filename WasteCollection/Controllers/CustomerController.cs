@@ -61,7 +61,7 @@ namespace WasteCollection.Controllers
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
                 customer.PickUpDay = _context.PickUpDays.Find(customer.PickUpDayId);
-                _context.Customers.Add(customer);
+                _context.Add(customer);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }

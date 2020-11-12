@@ -27,23 +27,26 @@
                 <input type="hidden" asp-for="CurrentAccountBalance" />
                 <input type="hidden" asp-for="ZipCode" />
                 <input type="hidden" asp-for="IdentityUserId" />
-                <div class="form-group form-check">
-                    <label class="col-form-label" asp-for="ConfirmTrashPickUp" />
-                    @Html.DisplayNameFor(model => model.ConfirmTrashPickUp)
+                <p>This will charge the customer $50.00 for this weeks service.</p>
 
+                    <div class="form-group form-check">
+                        <label class="col-form-label">
+                            <input class="form-check-input" asp-for="ConfirmTrashPickUp" /> @Html.DisplayNameFor(model => model.ConfirmTrashPickUp)
+                        </label>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-outline-success" />
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-outline-success" />
-                </div>
-            </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <form asp-action="Index">
+            <button type="submit" class="btn btn-outline-success">Back to @DateTime.Today.DayOfWeek </button>
         </form>
     </div>
-</div>
-<div>
-    <form asp-action="Index">
-        <button type="submit" class="btn btn-outline-success">Back to @DateTime.Today</button>
-    </form>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

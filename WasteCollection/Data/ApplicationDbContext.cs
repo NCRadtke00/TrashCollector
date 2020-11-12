@@ -87,7 +87,5 @@ namespace WasteCollection.Data
                         Date = "Sunday"
                     });
         }
-
-        //public DbSet<WasteCollection.Models.ViewModels.CustomerAddress> CustomerAddress { get; set; }
     }
 }

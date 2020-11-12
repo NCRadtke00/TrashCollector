@@ -26,28 +26,28 @@
     }
 </style>
 <body>
-    <h1>Welcome, @Html.DisplayFor(model => model.FirstName)</h1>
+    <h1 class="text-success">Welcome, @Html.DisplayFor(model => model.FirstName)</h1>
     <form asp-action="Edit" asp-route-id="@Model.Id" method="get">
-        <button type="submit" class="btn btn-outline-danger">Add additional Pickup, Suspend account services or change personal information</button>
+        <button type="submit" class="btn btn-success">Add a Pickup, Suspend account services, or change personal information</button>
     </form>
     <div class="row">
         <div class="columnD">
-            <div class="card border-danger" style="max-width: 25rem;">
-                <div class="card-header h3 text-danger">Current Balance</div>
+            <div class="card border-success" style="max-width: 25rem;">
+                <div class="card-header h4 text-success">Current Balance</div>
                 <div class="card-body">
                     <h4 class="card-title text-danger"><strong>@Html.DisplayFor(model => model.CurrentAccountBalance)</strong></h4>
-                    <p class="card-text"><strong>Your trash will be collected on<mark> @Html.DisplayFor(model => model.PickUpDay.Date) </mark></strong> please have your cans in their designated location for collection.</p>
+                    <p class="card-text"><strong>Your trash collection is on <mark> @Html.DisplayFor(model => model.PickUpDay.Date) </mark></strong>. <br /> Please have your cans in their designated location for collection.</p>
                 </div>
             </div>
         </div>
         <div class="columnD">
             <div class="card border-success" style="max-width: 25rem;">
-                <div class="card-header h4 text-info">Additional PickUp Day</div>
+                <div class="card-header h4 text-success">Additional PickUp Day</div>
                 <div class="card-body">
-                    <h4 class="card-title text-info">
+                    <h4 class="card-title text-success">
                         @if (Model.AdditionalPickUpDay == null)
                         {
-                            <strong>You have not requested an extra pickup day!</strong>
+                            <strong>Please request an additional pick up.</strong>
                         }
                         else
                         {
@@ -59,17 +59,17 @@
         </div>
         <div class="columnD">
             <div class="card border-success" style="max-width: 25rem;">
-                <div class="card-header h4 text-info">Suspension Status</div>
+                <div class="card-header h4 text-success">Suspension Status</div>
                 <div class="card-body">
-                    <h4 class="card-title text-info text-info">
+                    <h4 class="card-title text-info text-success">
                         @if (Model.AccountSuspendStartDate == null || Model.AccountSuspendEndDate == null)
                         {
-                            <strong class="text-dark">Your service is currently active!</strong>
+                            <strong class="text-success">Your service is currently active!</strong>
 
                         }
                         else
                         {
-                            @Html.DisplayFor(model => model.AccountSuspendStartDate) <text> through </text> @Html.DisplayFor(model => model.AccountSuspendEndDate)
+                            @Html.DisplayFor(model => model.AccountSuspendStartDate) <text> <br /> until <br /> </text> @Html.DisplayFor(model => model.AccountSuspendEndDate)
                         }
                     </h4>
                 </div>

@@ -40,14 +40,14 @@ namespace WasteCollection.Controllers
                 var dayOfWeekString = DateTime.Now.DayOfWeek.ToString();
                 var todayString = DateTime.Today.ToString();
                 var today = DateTime.Today;
-                SetAdditionalPickUpDay(customersInEmployeeZipCode);
+                AdditionalPickUpDay(customersInEmployeeZipCode);
                 var customersInEmployeeZipCodeAndToday = customersInEmployeeZipCode.Where(c => c.PickUpDay.Date == dayOfWeekString || c.AdditionalPickUp == todayString).ToList();
-                SetAccountSuspensionDates(customersInEmployeeZipCodeAndToday);
+                AccountSuspensionDates(customersInEmployeeZipCodeAndToday);
                 var customersWithoutAccountsSuspended = customersInEmployeeZipCodeAndToday.Where(c => (c.AccountSuspendStartDate == null && c.AccountSuspendEndDate == null) || c.AccountSuspendStartDate > today || c.AccountSuspendEndDate < today).ToList();
                 return View(customersWithoutAccountsSuspended);
             }
         }
-        private void SetAdditionalPickUpDay(List<Customer> customers)
+        private void AdditionalPickUpDay(List<Customer> customers)
         {
             foreach (Customer customer in customers)
             {
@@ -58,7 +58,7 @@ namespace WasteCollection.Controllers
                 }
             }
         }
-        private void SetAccountSuspensionDates(List<Customer> customers)
+        private void AccountSuspensionDates(List<Customer> customers)
         {
             foreach (Customer customer in customers)
             {
